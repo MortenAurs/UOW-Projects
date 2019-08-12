@@ -3,7 +3,7 @@
 // Author      : 
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Heap list in C++
 //============================================================================
 
 #include <iostream>
@@ -14,7 +14,6 @@ int maxLength = 97;
 int i= 0;
 int heap[97];
 int printLength = 5;
-
 
 class Heap
 {
@@ -28,7 +27,7 @@ class Heap
 				}
 				else
 				{
-					heap[i] = item;
+					heap[++i] = item;
 					siftup(i);
 				}
 			}
@@ -99,8 +98,7 @@ int main(void) {
 	Heap heap;
 	string fileName;
 	cout << "Write filename: " << endl;
-	//getline(cin, fileName);
-	fileName = "ex2.txt";
+	getline(cin, fileName);
 	fstream file(fileName);
 	if (! file){
 		cout << "Error opening file" << endl;
@@ -108,9 +106,8 @@ int main(void) {
 	}else {
 		for (string item; getline( file, item ); )
 		{
-			i++;
-			heap.insert(stoi(item));
 
+			heap.insert(stoi(item));
 		}
 		file.close();
 	}
