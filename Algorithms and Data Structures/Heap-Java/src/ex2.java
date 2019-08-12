@@ -74,11 +74,12 @@ class Heap {
             int rightChild = leftChild+1;
             if(rightChild < n) {
                 if (heap[leftChild] < heap[rightChild]) biggestChild = rightChild;
-                if (heap[parent] < heap[biggestChild]) {
-                    swap(parent, biggestChild);
-                    siftDown(biggestChild);
-                }
             }
+            if (heap[parent] < heap[biggestChild]) {
+                swap(parent, biggestChild);
+                siftDown(biggestChild);
+            }
+
         }
     }
 
