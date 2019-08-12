@@ -55,7 +55,7 @@ def siftup(index):
 
 def insert(item):
     global index
-    if index > maxLength:
+    if index > maxLength-1:
         print("List is full")
         exit()
     else:
