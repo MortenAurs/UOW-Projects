@@ -2,8 +2,63 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0be5625e-5728-4f49-b030-b3576ff55681" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex2.py" beforeDir="false" afterPath="$PROJECT_DIR$/ex2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/Heap-Java.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/ex2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/out/production/Heap-Java/Heap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/out/production/Heap-Java/META-INF/Heap-Java.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/out/production/Heap-Java/ex2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Java/src/ex2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/Heap-Python.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/ex2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Heap-Python/ex2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/.cproject" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/.settings/language.settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/ex1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/objects.mk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/sources.mk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/src/ex1.d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/src/ex1.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/Debug/src/subdir.mk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/ex1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/src/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Cpp/src/ex1.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/Stack Reverse - Java.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/ex1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/out/production/Stack Reverse - Java/ex1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Java/src/ex1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/Stack Reverse - Python.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/Stack-Reverse-Python.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/Main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms and Data Structures/Stack-Reverse-Python/ex1.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ex2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+            <state relative-caret-position="120">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -133,7 +188,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1924" height="1037" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.079599366" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -157,8 +211,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ex2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        <state relative-caret-position="120">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
