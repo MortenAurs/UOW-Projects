@@ -16,13 +16,14 @@ public class ex2 {
     public static void main(String[] args) {
         Heap heap = new Heap(100);
         System.out.println("Please type filename: ");
+
         Scanner input = new Scanner(System.in);
-        String fileName = input.nextLine();
+        String fileName = "../" + input.nextLine();
         BufferedReader file;
         try{
             file = new BufferedReader(new FileReader(fileName));
             String line = file.readLine();
-            while(line!=null){ // Sjekk hvordan dette skal gjøres
+            while(line!=null){ 
                 heap.insert(Integer.parseInt(line));
                 line = file.readLine();
             }
