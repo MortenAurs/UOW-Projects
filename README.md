@@ -3,7 +3,7 @@ Collection of the different exercises and assignments from my semester at the Un
 
 ### Projects
 The projects are sorted by subjects. And then project names.
-In every project directory there is a folder called 'Assignment'. This is where the assignment we were given will be.
+In every project directory there is a folder called 'Assignment' where there is a .pdf of the assignment we got.
 
 ### Languages
 I had introduction to basic programming in Python my first two semesters of University, then introduction to object-oriented programming in Java the next two semesters. I don't have any experience with C++.
