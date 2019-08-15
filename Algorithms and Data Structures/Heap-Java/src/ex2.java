@@ -18,7 +18,7 @@ public class ex2 {
         System.out.println("Please type filename: ");
 
         Scanner input = new Scanner(System.in);
-        String fileName = "../" + input.nextLine();
+        String fileName = input.nextLine();
         BufferedReader file;
         try{
             file = new BufferedReader(new FileReader(fileName));
