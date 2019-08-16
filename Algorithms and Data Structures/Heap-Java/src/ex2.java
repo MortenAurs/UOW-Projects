@@ -14,7 +14,7 @@ public class ex2 {
     private static int index = 0;
 
     public static void main(String[] args) {
-        Heap heap = new Heap(100);
+        Heap heap = new Heap(97);
         System.out.println("Please type filename: ");
 
         Scanner input = new Scanner(System.in);
@@ -23,6 +23,7 @@ public class ex2 {
         try{
             file = new BufferedReader(new FileReader(fileName));
             String line = file.readLine();
+            // Reading files as long as there is content
             while(line!=null){ 
                 heap.insert(Integer.parseInt(line));
                 line = file.readLine();
@@ -44,10 +45,10 @@ public class ex2 {
     }
 }
 class Heap {
-    private static int maxLength = 100;
-    private static int[] heap = new int[maxLength];
+    private static int[] heap = new int[100];
     private static int n = 0;
     private static int printLength = 5;
+    private static int maxLength;
 
     public Heap(int maxLength){
         this.maxLength = maxLength;
@@ -60,7 +61,6 @@ class Heap {
         }else{
             int parent = (child-1) / 2;
             if(heap[parent] > heap[child]) {
-
                 swap(child, parent);
                 siftUp(parent);
             }
