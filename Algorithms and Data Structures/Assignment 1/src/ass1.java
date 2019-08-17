@@ -25,7 +25,8 @@ public class ass1 {
             }
             file.close();
             System.out.println("Number of words in the dictionary: " + counter);
-            linearSearch();
+            //linearSearch();
+            binarySearch();
             long endTime = System.currentTimeMillis();
             System.out.println("Execution time is " + (endTime - startTime) + " milliseconds");
         } catch (FileNotFoundException e) {
@@ -34,6 +35,8 @@ public class ass1 {
             System.out.println("Readline error");
         }
     }
+
+
     public static void linearSearch() {
         StringBuilder reversedWord;
         int counter = 0;
@@ -56,5 +59,52 @@ public class ass1 {
             }
             i++;
         }
+    }
+
+    public static void binarySearch() {
+        StringBuilder reversedWord;
+        int counter = 0;
+        int length = 0;
+        String longestWord = null;
+        System.out.println("First 10 emordnilap's:");
+        // Iterating every word in the dictionary list until it finds the ten first emordnilaps'
+        for (int i = 0; i < list.length; i++) {
+            int result;
+            // Reverse the word we will be searching for
+            reversedWord = new StringBuilder(list[i]).reverse();
+            // Checking if word has more than 1 letter
+            if(list[i].length() > 1) {
+                result = search(reversedWord);
+                // Checking if result has a positive value
+                if(result > 0){
+                    // Finding the longest word
+                    if(list[result].length() > length){
+                        length = list[result].length();
+                        longestWord = list[result];
+                    }
+                    counter++;
+                    System.out.println(list[i] + " : " + list[result]);
+                }
+            }
+        }
+        System.out.println("Longest emordnilap is " + longestWord + " which is " + longestWord.length() + " characters long.");
+    }
+
+    public static int search(StringBuilder reversedWord){
+        int low = 0;
+        int high = list.length-1;
+        int mid;
+        // Going through list
+        while (low <= high){
+            mid = (low+high) / 2;
+            if(list[mid].compareTo(String.valueOf(reversedWord)) < 0) {
+                low = mid + 1;
+            }else if (list[mid].compareTo(String.valueOf(reversedWord)) > 0) {
+                high = mid -1;
+            }else{
+                return mid;
+            }
+        }
+        return -1;
     }
 }
