@@ -22,37 +22,41 @@ public class ass1 {
     public static void readSampleFile(){
         String sampleFile = "sample.txt";
         String[] sampleList = new String[700];
-        String[] validWords = new String[500];
-        int validIndex = 0;
+        String[] validWords = new String[700];
+        int uniqueCounter = 0;
         int i = 0;
         boolean found;
         Scanner input = null;
-        int counter = 0;
+        int validCounter = 0;
         try {
             input = new Scanner(new File(sampleFile));
             while(input.hasNext()){
                 found = false;
                 sampleList[i] = input.next().toLowerCase().replaceAll("[,.!\"':?;-]", "");
                 for(String str : validWords){
-                    if(sampleList[i].equals(str)){
-                        found = true;
-                    }
-                }
-                if(!found) {
-                    for (int k = 0; k < dictList.length; k++) {
-                        if (sampleList[i].equals(dictList[k])) {
-                            System.out.println("Sample: " + sampleList[i]);
-                            System.out.println("Dictlist: " + dictList[k]);
-                            System.out.println("Funnet");
-                            validWords[validIndex] = sampleList[i];
-                            validIndex++;
+                    if(str != null){
+                        //System.out.println("Str: " + str);
+                        //System.out.println("Samplelist[i]: + " + sampleList[i]);
+                        if(sampleList[i].equals(str)){
+                            //System.out.println("Funnet");
+                            found = true;
                         }
                     }
-                }
 
-                System.out.println();
+                }
+                for (int k = 0; k < dictList.length; k++) {
+                    if (sampleList[i].equals(dictList[k])) {
+                        if(!found) {
+                            validWords[uniqueCounter] = sampleList[i];
+                            uniqueCounter++;
+                        }
+                        validCounter++;
+                    }
+                }
                 i++;
             }
+            System.out.println("Valid words found in dictionary: " + validCounter);
+            System.out.println("Unique words: " + uniqueCounter);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
