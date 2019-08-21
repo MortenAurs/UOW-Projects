@@ -1,0 +1,6 @@
+Linear search: Check the 1000 first words takes 57147 milliseconds(57,147 seconds).
+57147 * 300 = 17144100 milliseconds.
+17144100 is 285,735minutes which is 4,76225
+
+Binary search: Find all emordnilaps: 765 milliseconds (0,765 seconds)
+
