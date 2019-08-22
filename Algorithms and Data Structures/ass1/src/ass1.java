@@ -1,3 +1,9 @@
+/*
+Assignment 1 - Step 1
+Morten Aursland
+Student login: ma919
+ */
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -18,7 +24,6 @@ public class ass1 {
     }
 
     // Reading through dictionary.txt and adding the contents to dictList-array.
-    // Returning the length of the new dictlist
     public static void readDictFile() {
         String dictFile = "dictionary.txt";
         Scanner file;
