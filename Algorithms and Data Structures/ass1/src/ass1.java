@@ -11,13 +11,14 @@ public class ass1 {
         readDictFile();
         System.out.println("Number of words in the dictionary: " + nWords);
         linearSearch();
-        binarySearch();
+        //binarySearch();
         //step3();
         long endTime = System.currentTimeMillis();
         System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
 
-    // Reading through dictionary.txt and adding the contents to dictList-array. Returning the length of the new dictlist
+    // Reading through dictionary.txt and adding the contents to dictList-array.
+    // Returning the length of the new dictlist
     public static void readDictFile() {
         String dictFile = "dictionary.txt";
         Scanner file;
@@ -65,6 +66,11 @@ public class ass1 {
         }
         return reversedWord;
     }
+
+
+
+
+
 
     public static void binarySearch() {
         String reversedWord;
