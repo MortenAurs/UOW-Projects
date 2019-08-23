@@ -14,11 +14,11 @@ public class ex3 {
     private static String[] backward = new String[100];
 
     public static void main(String[] args) {
-        readDictFile();
+        readFile();
     }
 
     // Reading through dictionary.txt and adding the contents to dictList-array.
-    public static void readDictFile() {
+    public static void readFile() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter filename: ");
         String fileName = input.nextLine();
