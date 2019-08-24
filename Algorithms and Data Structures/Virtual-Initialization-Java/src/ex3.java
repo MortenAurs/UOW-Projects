@@ -15,34 +15,51 @@ public class ex3 {
     private static int cnt = 0;
 
     public static void main(String[] args) {
-        readFile();
-    }
 
-    // Reading through dictionary.txt and adding the contents to dictList-array.
-    public static void readFile() {
         Scanner input = new Scanner(System.in);
         //System.out.println("Enter filename: ");
         //String fileName = input.nextLine();
         String fileName = "ex3.txt";
         Scanner file;
-        int what, where, probe;
+
         try {
             file = new Scanner(new File(fileName));
             while (file.hasNext()) {
+                boolean firstWord = true;
+                String strWhat = "";
+                String strWhere = "";
+                String line = file.nextLine();
+                for(int i = 0; i < line.length(); i++){
+                    if(firstWord) {
+                        if (line.charAt(i) != '\t') {
+                            strWhat += String.valueOf(line.charAt(i));
+                        } else {
+                            firstWord = false;
+                        }
+                    }else{
+                        strWhere += String.valueOf(line.charAt(i));
+                    }
+                }
+                int what = Integer.parseInt(strWhat);
+                int where = Integer.parseInt(strWhere);
 
-                what = Integer.parseInt(file.next());
-                where = Integer.parseInt(file.next());
                 if(what == -1 && where == -1) {
                     break;
                 }
                 data[where] = what;
-
                 forward[cnt] = where;
                 backward[where] = cnt;
                 cnt++;
             }
             while(file.hasNext()) {
-                probe = Integer.parseInt(file.next());
+                String strProbe = "";
+                String line = file.nextLine();
+                for(int i = 0; i < line.length(); i++){
+                    if(line.charAt(i) != '\t'){
+                        strProbe += String.valueOf(line.charAt(i));
+                    }
+                }
+                int probe = Integer.parseInt(strProbe);
                 if(probe == -1) {
                     break;
                 }
@@ -51,7 +68,6 @@ public class ex3 {
                 }else{
                     System.out.println("Position " + probe + " has not been initialized");
                 }
-
             }
             file.close();
         } catch (FileNotFoundException e) {
