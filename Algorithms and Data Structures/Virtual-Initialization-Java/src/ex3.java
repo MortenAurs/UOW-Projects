@@ -12,7 +12,7 @@ public class ex3 {
     private static int[] data = new int[100];
     private static int[] forward = new int[100];
     private static int[] backward = new int[100];
-    private static int cnt = 0;
+    private static int validCount = 0;
 
     public static void main(String[] args) {
 
@@ -47,9 +47,9 @@ public class ex3 {
                     break;
                 }
                 data[where] = what;
-                forward[cnt] = where;
-                backward[where] = cnt;
-                cnt++;
+                forward[validCount] = where;
+                backward[where] = validCount;
+                validCount++;
             }
             while(file.hasNext()) {
                 String strProbe = "";
@@ -63,7 +63,7 @@ public class ex3 {
                 if(probe == -1) {
                     break;
                 }
-                if(backward[probe] > 0) {
+                if(backward[probe] > 0 && backward[probe] < validCount && forward[backward[probe]] == probe) {
                     System.out.println("Position " + probe + " has been initialized to value " + data[probe]);
                 }else{
                     System.out.println("Position " + probe + " has not been initialized");
