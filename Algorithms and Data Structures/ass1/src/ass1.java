@@ -16,9 +16,9 @@ public class ass1 {
         long startTime = System.currentTimeMillis();
         readDictFile();
         System.out.println("Number of words in the dictionary: " + nWords);
-        linearSearch();
+        //linearSearch();
         //binarySearch();
-        //step3();
+        step3();
         long endTime = System.currentTimeMillis();
         System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
@@ -130,50 +130,58 @@ public class ass1 {
 
     public static void step3() {
         String sampleFile = "sample.txt";
+
         String[] sampleList = new String[700];
         String[] validWords = new String[700];
+        String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
+
         int uniqueCounter = 0;
-        int i = 0;
-        boolean found;
+        int index = 0;
         Scanner input = null;
         int validCounter = 0;
         try {
             input = new Scanner(new File(sampleFile));
             while (input.hasNext()) {
-                found = false;
+                String line = input.nextLine().toLowerCase();
+                String word = "";
+                // Going through line by line
+                for(int i = 0; i < line.length(); i++){
 
-                sampleList[i] = input.next().toLowerCase().replaceAll("[,.!\"':?;-]", "");
-                for (String str : validWords) {
-                    if (str != null) {
-                        //System.out.println("Str: " + str);
-                        //System.out.println("Samplelist[i]: + " + sampleList[i]);
-                        if (sampleList[i].equals(str)) {
-                            //System.out.println("Funnet");
-                            found = true;
+                    // Seperating words that are separated by space
+                    if(line.charAt(i) == ' '){
+                        // Only adding to list words that have content(no empty words)
+                        if(word != "") {
+                            sampleList[index] = word;
+                            index++;
+                            word = "";
                         }
-                    }
+                    }else {
+                        boolean found = false;
+                        for(int j = 0; j < notAllowed.length; j++){
+                            if(notAllowed[j].equals(String.valueOf(line.charAt(i)))){
+                                found = true;
+                            }
+                        }
+                        if(!found){
+                            word += line.charAt(i);
+                            System.out.println("Word: " + word);
+                        }
 
-                }
-                for (int k = 0; k < dictList.length; k++) {
-                    if (sampleList[i].equals(dictList[k])) {
-                        if (!found) {
-                            validWords[uniqueCounter] = sampleList[i];
-                            uniqueCounter++;
-                        }
-                        validCounter++;
                     }
                 }
-                i++;
+                if(word != "") {
+                    sampleList[index] = word;
+                    index++;
+                }
+
             }
-            System.out.println("Valid words found in dictionary: " + validCounter);
-            System.out.println("Unique words: " + uniqueCounter);
+            System.out.println("==========================FOR LOOP==========================");
+            for(int i = 0; i < index; i++){
+                System.out.println(sampleList[i]);
+            }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
-
-    }
-
-    public static void replace(){
 
     }
 }
