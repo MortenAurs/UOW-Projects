@@ -17,20 +17,21 @@ public class ex3 {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        //System.out.println("Enter filename: ");
-        //String fileName = input.nextLine();
-        String fileName = "ex3.txt";
+        System.out.println("Enter filename: ");
+        String fileName = input.nextLine();
         Scanner file;
-
         try {
             file = new Scanner(new File(fileName));
+            // Reading contents of textfile
             while (file.hasNext()) {
                 boolean firstWord = true;
                 String strWhat = "";
                 String strWhere = "";
                 String line = file.nextLine();
+                // Checking contents of the line in the text file
                 for(int i = 0; i < line.length(); i++){
                     if(firstWord) {
+                        // Seperating numbers that are seperated with tab
                         if (line.charAt(i) != '\t') {
                             strWhat += String.valueOf(line.charAt(i));
                         } else {
@@ -42,10 +43,11 @@ public class ex3 {
                 }
                 int what = Integer.parseInt(strWhat);
                 int where = Integer.parseInt(strWhere);
-
+                // Breaking if what and where is -1
                 if(what == -1 && where == -1) {
                     break;
                 }
+
                 data[where] = what;
                 forward[validCount] = where;
                 backward[where] = validCount;
@@ -54,6 +56,7 @@ public class ex3 {
             while(file.hasNext()) {
                 String strProbe = "";
                 String line = file.nextLine();
+                // Getting content of file and removing tabs.
                 for(int i = 0; i < line.length(); i++){
                     if(line.charAt(i) != '\t'){
                         strProbe += String.valueOf(line.charAt(i));
@@ -63,6 +66,7 @@ public class ex3 {
                 if(probe == -1) {
                     break;
                 }
+                // Checking if position has been initialized
                 if(backward[probe] > 0 && backward[probe] < validCount && forward[backward[probe]] == probe) {
                     System.out.println("Position " + probe + " has been initialized to value " + data[probe]);
                 }else{
