@@ -131,8 +131,8 @@ public class ass1 {
     public static void step3() {
         String sampleFile = "sample.txt";
 
-        String[] sampleList = new String[700];
-        String[] validWords = new String[700];
+        String[] sampleList = new String[40000];
+        String[] validWords = new String[40000];
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
         int uniqueCounter = 0;
@@ -146,13 +146,22 @@ public class ass1 {
                 String word = "";
                 // Going through line by line
                 for(int i = 0; i < line.length(); i++){
-
                     // Seperating words that are separated by space
                     if(line.charAt(i) == ' '){
                         // Only adding to list words that have content(no empty words)
                         if(word != "") {
-                            sampleList[index] = word;
-                            index++;
+                            boolean found = false;
+                            // Checking that the word has not been added previously
+                            for(int j = 0; j < index; j++) {
+                                if (word.equals(sampleList[j])) {
+                                    found = true;
+                                }
+                            }
+                            if(!found) {
+                                sampleList[index] = word;
+                                index++;
+                            }
+                            validCounter++;
                             word = "";
                         }
                     }else {
@@ -164,21 +173,38 @@ public class ass1 {
                         }
                         if(!found){
                             word += line.charAt(i);
-                            System.out.println("Word: " + word);
                         }
-
                     }
                 }
                 if(word != "") {
-                    sampleList[index] = word;
-                    index++;
+                    boolean found = false;
+                    for(int i = 0; i < index; i++) {
+                        if(word.equals(sampleList[i])) {
+                            found = true;
+                        }
+                    }
+                    if(!found) {
+                        sampleList[index] = word;
+                        index++;
+                    }
+                    validCounter++;
                 }
+            }
 
+            int sampleLength = index;
+            int dictLength = nWords;
+            int validCount = 0;
+            for(int i = 0; i < sampleLength; i++){
+                for(int j = 0; j < dictLength; j++){
+                    if(sampleList[i].equals(dictList[j])){
+                        validWords[validCount] = sampleList[i];
+                        validCount++;
+                    }
+                }
             }
-            System.out.println("==========================FOR LOOP==========================");
-            for(int i = 0; i < index; i++){
-                System.out.println(sampleList[i]);
-            }
+            System.out.println("Total number of valid words is : " + validCounter);
+            System.out.println("Total number of unique words is : " + index);
+            System.out.println("Total number of unique words found in dictionary is : " + validCount);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
