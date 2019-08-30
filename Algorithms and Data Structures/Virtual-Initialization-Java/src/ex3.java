@@ -1,5 +1,5 @@
 /*
-Assignment 1 - Step 1
+Exercise 3 - Virtual Initialization
 Morten Aursland
 Student login: ma919
  */
