@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class ass1 {
 
     private static String[] dictList = new String[400000];
+    private static String[] sampleList = new String[40000];
     private static int nWords = 0;
 
     public static void main(String[] args) {
@@ -17,8 +18,8 @@ public class ass1 {
         readDictFile();
         System.out.println("Number of words in the dictionary: " + nWords);
         //linearSearch();
-        binarySearch();
-        //step3();
+        //binarySearch();
+        step3();
         long endTime = System.currentTimeMillis();
         System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
@@ -71,10 +72,6 @@ public class ass1 {
         }
         return reversedWord;
     }
-
-
-
-
 
 
     public static void binarySearch() {
@@ -143,8 +140,9 @@ public class ass1 {
 
     public static void step3() {
         String sampleFile = "sample.txt";
+        Node root = null;
 
-        String[] sampleList = new String[40000];
+
         String[] validWords = new String[40000];
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
@@ -163,20 +161,15 @@ public class ass1 {
                     if(line.charAt(i) == ' '){
                         // Only adding to list words that have content(no empty words)
                         if(word != "") {
-                            boolean found = false;
-                            // Checking that the word has not been added previously
-                            for(int j = 0; j < index; j++) {
-                                if (word.equals(sampleList[j])) {
-                                    found = true;
-                                }
-                            }
-                            if(!found) {
-                                sampleList[index] = word;
-                                index++;
-                            }
+                            sampleList[index] = word;
+                            //insert(word, root);
+
+                            index++;
                             validCounter++;
                             word = "";
                         }
+
+
                     }else {
                         boolean found = false;
                         for(int j = 0; j < notAllowed.length; j++){
@@ -190,16 +183,10 @@ public class ass1 {
                     }
                 }
                 if(word != "") {
-                    boolean found = false;
-                    for(int i = 0; i < index; i++) {
-                        if(word.equals(sampleList[i])) {
-                            found = true;
-                        }
-                    }
-                    if(!found) {
-                        sampleList[index] = word;
-                        index++;
-                    }
+
+                    sampleList[index] = word;
+                    index++;
+
                     validCounter++;
                 }
             }
@@ -222,5 +209,43 @@ public class ass1 {
             ex.printStackTrace();
         }
 
+    }
+    public static Node insert_first(String value){
+        Node newNode = new Node(value);
+        newNode.key = value;
+        return newNode;
+    }
+    public static void insert(String item, Node node){
+        Node next; boolean left;
+        if(item == node.key) return;
+        else if (item.compareTo(node.key) < 0){
+            next = node.left; left = true;
+        }else{
+            next = node.right; left = false;
+        }
+        if (next != null){
+            insert (item, next);
+        }else{
+            next = new Node(null);
+            next.key = item;
+            next.left = null;
+            next.right = null;
+            if(left){
+                node.left = next;
+            }else{
+                node.right=next;
+            }
+        }
+    }
+
+}
+
+class Node {
+    String key;
+    Node left, right;
+
+    public Node(String item){
+        key = item;
+        this.left = this.right = null;
     }
 }
