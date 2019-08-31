@@ -12,16 +12,17 @@ public class ass1 {
     private static String[] dictList = new String[400000];
     private static String[] sampleList = new String[40000];
     private static int nWords = 0;
+    private static int validCounter = 0;
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         readDictFile();
-        System.out.println("Number of words in the dictionary: " + nWords);
+        //System.out.println("Number of words in the dictionary: " + nWords);
         //linearSearch();
         //binarySearch();
         step3();
         long endTime = System.currentTimeMillis();
-        System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
+        //System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
 
     // Reading through dictionary.txt and adding the contents to dictList-array.
@@ -148,28 +149,46 @@ public class ass1 {
 
         int uniqueCounter = 0;
         int index = 0;
+        boolean firstWord = true;
         Scanner input = null;
-        int validCounter = 0;
+
         try {
             input = new Scanner(new File(sampleFile));
+            String word = "";
+            String line = input.nextLine().toLowerCase();
+            // Going through line char by char to find first word
+            for(int i = 0; i < line.length(); i++) {
+                // Seperating words that are separated by space
+                if (line.charAt(i) == ' ') {
+                    if (word != "") {
+                        if(firstWord){
+                            root = insertFirst(word);
+                            word = "";
+                            firstWord = false;
+                        }else{
+                            insert(word, root);
+                            word = "";
+                        }
+                    }
+                }else{
+                    word += line.charAt(i);
+                }
+            }
+
             while (input.hasNext()) {
-                String line = input.nextLine().toLowerCase();
-                String word = "";
-                // Going through line by line
+                line = input.nextLine().toLowerCase();
+                word = "";
+                // Going through line char by char
                 for(int i = 0; i < line.length(); i++){
                     // Seperating words that are separated by space
                     if(line.charAt(i) == ' '){
                         // Only adding to list words that have content(no empty words)
                         if(word != "") {
-                            sampleList[index] = word;
-                            //insert(word, root);
+                            //sampleList[index] = word;
+                            insert(word, root);
 
-                            index++;
-                            validCounter++;
                             word = "";
                         }
-
-
                     }else {
                         boolean found = false;
                         for(int j = 0; j < notAllowed.length; j++){
@@ -183,15 +202,19 @@ public class ass1 {
                     }
                 }
                 if(word != "") {
+                    insert(word, root);
+                    //sampleList[index] = word;
 
-                    sampleList[index] = word;
-                    index++;
-
-                    validCounter++;
                 }
             }
-
-            int sampleLength = index;
+            System.out.println("Visit");
+            visit(root);
+            System.out.println(":::::::::::::::::: :::::::::::::::::::::");
+            for(int i = 0; i < validCounter; i++){
+                System.out.println(sampleList[i]);
+            }
+            System.out.println("Amount of words: " + validCounter);
+            /*int sampleLength = index;
             int dictLength = nWords;
             int validCount = 0;
             for(int i = 0; i < sampleLength; i++){
@@ -204,39 +227,62 @@ public class ass1 {
             }
             System.out.println("Total number of valid words is : " + validCounter);
             System.out.println("Total number of unique words is : " + index);
-            System.out.println("Total number of unique words found in dictionary is : " + validCount);
+            System.out.println("Total number of unique words found in dictionary is : " + validCount);*/
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
 
     }
-    public static Node insert_first(String value){
+    public static Node insertFirst(String value) {
         Node newNode = new Node(value);
-        newNode.key = value;
+        newNode.left = null;
+        newNode.right = null;
         return newNode;
     }
-    public static void insert(String item, Node node){
-        Node next; boolean left;
-        if(item == node.key) return;
-        else if (item.compareTo(node.key) < 0){
-            next = node.left; left = true;
+
+    public static void insert(String item, Node node) {
+
+        Node next;
+
+        boolean left;
+        if(item.equals(node.key)){
+            return;
+        }else if (item.compareTo(node.key) < 0){
+            next = node.left;
+            left = true;
         }else{
-            next = node.right; left = false;
+            next = node.right;
+            left = false;
         }
-        if (next != null){
-            insert (item, next);
+        if (next != null) {
+            insert(item, next);
         }else{
-            next = new Node(null);
+            next = new Node(item);
             next.key = item;
-            next.left = null;
-            next.right = null;
+
+
             if(left){
                 node.left = next;
-            }else{
-                node.right=next;
+            }else {
+                node.right = next;
             }
         }
     }
+
+    public static void visit(Node node){
+        if(node.left != null){
+            visit(node.left);
+        }
+        if(validCounter++<1000){
+            System.out.println(node.key);
+            sampleList[validCounter-1] = node.key;
+        }
+        if(node.right != null){
+            visit(node.right);
+        }
+    }
+
+
 
 }
 
