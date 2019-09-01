@@ -12,7 +12,8 @@ public class ass1 {
     private static String[] dictList = new String[400000];
     private static String[] sampleList = new String[40000];
     private static int nWords = 0;
-    private static int validCounter = 0;
+    private static int uniqueWords = 0;
+    private static int validCnt = 0;
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
@@ -41,6 +42,7 @@ public class ass1 {
             System.exit(0);
         }
     }
+
     // Finding the first five emordnilaps and printing them out
     public static void linearSearch() {
         int listLength = nWords;
@@ -74,7 +76,6 @@ public class ass1 {
         return reversedWord;
     }
 
-
     public static void binarySearch() {
         String reversedWord;
         int counter = 0;
@@ -90,9 +91,7 @@ public class ass1 {
             // Checking if word has more than 1 letter
             if (dictList[i].length() > 1) {
                 result = search(reversedWord);
-                // Checking if result has a positive value
                 if (result >= 0) {
-
                     // Finding the longest word
                     if (dictList[result].length() > length) {
                         length = dictList[result].length();
@@ -119,7 +118,7 @@ public class ass1 {
     }
 
     // Binary search the dictList
-    public static int search(String reversedWord) {
+    public static int search(String word) {
         int listLength = nWords;
         int low = 0;
         int high = listLength;
@@ -127,9 +126,9 @@ public class ass1 {
         // Going through list
         while (low <= high) {
             mid = (low + high) / 2;
-            if (dictList[mid].compareTo(reversedWord) < 0) {
+            if (dictList[mid].compareTo(word) < 0) {
                 low = mid + 1;
-            } else if (dictList[mid].compareTo(reversedWord) > 0) {
+            } else if (dictList[mid].compareTo(word) > 0) {
                 high = mid - 1;
             } else {
                 return mid;
@@ -143,11 +142,9 @@ public class ass1 {
         String sampleFile = "sample.txt";
         Node root = null;
 
-
         String[] validWords = new String[40000];
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
-        int uniqueCounter = 0;
         int index = 0;
         boolean firstWord = true;
         Scanner input = null;
@@ -161,6 +158,7 @@ public class ass1 {
                 // Seperating words that are separated by space
                 if (line.charAt(i) == ' ') {
                     if (word != "") {
+                        validCnt++;
                         if(firstWord){
                             root = insertFirst(word);
                             word = "";
@@ -174,6 +172,9 @@ public class ass1 {
                     word += line.charAt(i);
                 }
             }
+            if(word != ""){
+                validCnt++;
+            }
 
             while (input.hasNext()) {
                 line = input.nextLine().toLowerCase();
@@ -184,9 +185,8 @@ public class ass1 {
                     if(line.charAt(i) == ' '){
                         // Only adding to list words that have content(no empty words)
                         if(word != "") {
-                            //sampleList[index] = word;
+                            validCnt++;
                             insert(word, root);
-
                             word = "";
                         }
                     }else {
@@ -202,39 +202,34 @@ public class ass1 {
                     }
                 }
                 if(word != "") {
+                    validCnt++;
                     insert(word, root);
-                    //sampleList[index] = word;
-
                 }
             }
-            System.out.println("Visit");
             visit(root);
-            System.out.println(":::::::::::::::::: :::::::::::::::::::::");
-            for(int i = 0; i < validCounter; i++){
-                System.out.println(sampleList[i]);
-            }
-            System.out.println("Amount of words: " + validCounter);
-            /*int sampleLength = index;
-            int dictLength = nWords;
-            int validCount = 0;
+
+            int sampleLength = uniqueWords;
+            int validDict = 0;
+            int result;
             for(int i = 0; i < sampleLength; i++){
-                for(int j = 0; j < dictLength; j++){
-                    if(sampleList[i].equals(dictList[j])){
-                        validWords[validCount] = sampleList[i];
-                        validCount++;
-                    }
+                result = search(sampleList[i]);
+                if(result >= 0){
+                    validDict++;
                 }
             }
-            System.out.println("Total number of valid words is : " + validCounter);
-            System.out.println("Total number of unique words is : " + index);
-            System.out.println("Total number of unique words found in dictionary is : " + validCount);*/
+
+            System.out.println("Total number of valid words is : " + validCnt);
+            System.out.println("Total number of unique words is : " + uniqueWords);
+            System.out.println("Total number of unique words found in dictionary is : " + validDict);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
-
     }
+
+    // Inserting first word into
     public static Node insertFirst(String value) {
         Node newNode = new Node(value);
+        sampleList[uniqueWords] = newNode.key;
         newNode.left = null;
         newNode.right = null;
         return newNode;
@@ -243,7 +238,6 @@ public class ass1 {
     public static void insert(String item, Node node) {
 
         Node next;
-
         boolean left;
         if(item.equals(node.key)){
             return;
@@ -260,7 +254,6 @@ public class ass1 {
             next = new Node(item);
             next.key = item;
 
-
             if(left){
                 node.left = next;
             }else {
@@ -273,17 +266,13 @@ public class ass1 {
         if(node.left != null){
             visit(node.left);
         }
-        if(validCounter++<1000){
-            System.out.println(node.key);
-            sampleList[validCounter-1] = node.key;
+        if(uniqueWords++<1000){
+            sampleList[uniqueWords-1] = node.key;
         }
         if(node.right != null){
             visit(node.right);
         }
     }
-
-
-
 }
 
 class Node {
