@@ -6,22 +6,26 @@ Student login: ma919
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.function.DoubleToIntFunction;
 
 public class ass1 {
 
     private static String[] dictList = new String[400000];
     private static String[] sampleList = new String[40000];
+    private static String[] validInDict = new String[300];
     private static int nWords = 0;
     private static int uniqueWords = 0;
     private static int validCnt = 0;
+    private static int validDict = 0;
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         readDictFile();
         //System.out.println("Number of words in the dictionary: " + nWords);
-        //linearSearch();
-        //binarySearch();
+        //step1();
+        //step2();
         step3();
+        step4();
         long endTime = System.currentTimeMillis();
         //System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
@@ -44,7 +48,7 @@ public class ass1 {
     }
 
     // Finding the first five emordnilaps and printing them out
-    public static void linearSearch() {
+    public static void step1() {
         int listLength = nWords;
         String reversedWord;
         int counter = 0;
@@ -76,7 +80,7 @@ public class ass1 {
         return reversedWord;
     }
 
-    public static void binarySearch() {
+    public static void step2() {
         String reversedWord;
         int counter = 0;
         int length = 0;
@@ -90,7 +94,7 @@ public class ass1 {
             reversedWord = reverse(dictList[i]);
             // Checking if word has more than 1 letter
             if (dictList[i].length() > 1) {
-                result = search(reversedWord);
+                result = binarySearch(reversedWord);
                 if (result >= 0) {
                     // Finding the longest word
                     if (dictList[result].length() > length) {
@@ -118,7 +122,7 @@ public class ass1 {
     }
 
     // Binary search the dictList
-    public static int search(String word) {
+    public static int binarySearch(String word) {
         int listLength = nWords;
         int low = 0;
         int high = listLength;
@@ -137,7 +141,7 @@ public class ass1 {
         return -1;
     }
 
-
+    // Function for step 3 of assignment
     public static void step3() {
         String sampleFile = "sample.txt";
         Node root = null;
@@ -209,17 +213,17 @@ public class ass1 {
             visit(root);
 
             int sampleLength = uniqueWords;
-            int validDict = 0;
             int result;
             for(int i = 0; i < sampleLength; i++){
-                result = search(sampleList[i]);
+                result = binarySearch(sampleList[i]);
                 if(result >= 0){
+                    validInDict[validDict] = sampleList[i];
                     validDict++;
                 }
             }
 
             System.out.println("Total number of valid words is : " + validCnt);
-            System.out.println("Total number of unique words is : " + uniqueWords);
+            System.out.println("Total number of unique words is : " + sampleLength);
             System.out.println("Total number of unique words found in dictionary is : " + validDict);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -235,6 +239,7 @@ public class ass1 {
         return newNode;
     }
 
+    // Inserting into BST tree
     public static void insert(String item, Node node) {
 
         Node next;
@@ -262,16 +267,77 @@ public class ass1 {
         }
     }
 
+    // Going through BST tree and inserting into list
     public static void visit(Node node){
+        int sampleLength = validCnt;
         if(node.left != null){
             visit(node.left);
         }
-        if(uniqueWords++<1000){
+        if(uniqueWords++<validCnt){
             sampleList[uniqueWords-1] = node.key;
         }
+
         if(node.right != null){
             visit(node.right);
         }
+    }
+
+    public static void step4(){
+
+
+        int listLength = nWords;
+        String word1;
+        String word2 = "";
+
+        boolean found;
+        for(int i = 0; i < validDict; i++){
+            String anagram = "";
+            word1 = validInDict[i];
+            if(word1.length() > 2){
+                for(int j = 0; j < listLength; j++) {
+                    word2 = dictList[j];
+                    if (word2.length() > 2 && !word1.equals(word2)) {
+                        found = anagram(word1, word2);
+                        if (found) {
+                            anagram += word2 + " ";
+
+                        }
+
+                    } else if (word1.length() == 2) {
+                        // Reverse and check
+                    }
+                }
+                if(!anagram.equals("")){
+                    System.out.println(word1 + ": " + anagram);
+                }
+            }
+        }
+        System.out.println("The word with the most anagrams: ");
+        System.out.println("The longest word with anagram(s): ");
+        System.out.println("Total number of words with anagrams: ");
+        System.out.println("Total number of anagrams found: ");
+
+    }
+    public static boolean anagram(String word1, String word2){
+        int n1 = word1.length();
+        int n2 = word2.length();
+
+        if(n1 != n2){
+            return false;
+        }
+        int[] counter = new int[256];
+
+        for(char c : word1.toCharArray()) {
+            counter[c]++;
+        }
+        for(char c : word2.toCharArray()){
+            counter[c]--;
+        }
+        for(int i : counter){
+            if(i != 0) return false;
+
+        }
+        return true;
     }
 }
 
