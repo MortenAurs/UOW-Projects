@@ -21,20 +21,20 @@ public class ass1 {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         readDictFile();
-        //System.out.println("Number of words in the dictionary: " + nWords);
+        System.out.println("Number of words in the dictionary: " + nWords);
         //step1();
         System.out.println( "===== STEP 2 =====");
         step2();
         System.out.println();
         System.out.println( "===== STEP 3 =====");
         System.out.println();
-        step3();
+        //step3();
         System.out.println();
         System.out.println( "===== STEP 4 =====");
         System.out.println();
-        step4();
+        //step4();
         long endTime = System.currentTimeMillis();
-        //System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
+        System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
 
     // Reading through dictionary.txt and adding the contents to dictList-array.
@@ -92,7 +92,6 @@ public class ass1 {
         int counter = 0;
         int length = 0;
         int result = 0;
-        int validRes = 0;
         int listLength = nWords;
         String longestWord = null;
         System.out.println("First 10 emordnilap's (binary search):");
@@ -102,33 +101,35 @@ public class ass1 {
             if(word.length() > 1){
                 reversedWord = reverse(word);
                 result = binarySearch(reversedWord);
-                if(result>=0){
-                    validRes = result;
-                    // Finding the longest word
-                    if (reversedWord.length() > length) {
-                        length = reversedWord.length();
-                        longestWord = reversedWord;
-                    }
-                    if(counter < 10){
+                if(result>=0) {
+                    if(counter < 10) {
                         System.out.println(dictList[i] + " : " + dictList[result]);
+                        counter++;
+                        if (reversedWord.length() > length) {
+                            length = reversedWord.length();
+                            longestWord = reversedWord;
+                        }
+                    }else{
+                        break;
                     }
-                    counter++;
+
                 }
             }
         }
-
-
-
-        // Checking dictlist from same place it stopped searching for emornilaps
-        /*for(int j = validRes; j < dictList.length; j++){
-            // Finding the longest word
-            if(dictList[j] != null){
-                if (dictList[j].length() > length) {
-                    length = dictList[j].length();
-                    longestWord = dictList[j];
+        // Checking dictlist from same place it stopped searching for emornilaps to find longest word
+        for(int j = result; j < listLength; j++){
+            String word = dictList[j];
+            if(word.length() > length){
+                reversedWord = reverse(word);
+                result = binarySearch(reversedWord);
+                // Finding the longest word
+                if (result >= 0) {
+                    length = reversedWord.length();
+                    longestWord = reversedWord;
                 }
             }
-        }*/
+
+        }
         System.out.println("Longest emordnilap is " + longestWord + " which is " + longestWord.length() + " characters long.");
     }
 
