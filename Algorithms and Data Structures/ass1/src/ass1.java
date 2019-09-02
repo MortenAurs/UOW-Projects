@@ -23,8 +23,15 @@ public class ass1 {
         readDictFile();
         //System.out.println("Number of words in the dictionary: " + nWords);
         //step1();
+        System.out.println( "===== STEP 2 =====");
         //step2();
+        System.out.println();
+        System.out.println( "===== STEP 3 =====");
+        System.out.println();
         step3();
+        System.out.println();
+        System.out.println( "===== STEP 4 =====");
+        System.out.println();
         step4();
         long endTime = System.currentTimeMillis();
         //System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
@@ -146,7 +153,6 @@ public class ass1 {
         String sampleFile = "sample.txt";
         Node root = null;
 
-        String[] validWords = new String[40000];
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
         int index = 0;
@@ -288,9 +294,18 @@ public class ass1 {
         int listLength = nWords;
         String word1;
         String word2 = "";
+        String mostAnagrams = "";
+        String longestWord = "";
+        int cntAnagrams = 0;
+        int cntMostAnagrams = 0;
+        int cntLongestFound = 0;
+        int cntWordsWithAnagrams = 0;
+
 
         boolean found;
         for(int i = 0; i < validDict; i++){
+            int cntFound = 0;
+
             String anagram = "";
             word1 = validInDict[i];
             if(word1.length() > 2){
@@ -299,23 +314,36 @@ public class ass1 {
                     if (word2.length() > 2 && !word1.equals(word2)) {
                         found = anagram(word1, word2);
                         if (found) {
+                            cntFound++;
+                            cntAnagrams++;
+                            if(cntLongestFound < word1.length()){
+                                cntLongestFound = word1.length();
+                                longestWord = word1;
+                            }
+                            if(cntFound > cntMostAnagrams){
+                                cntMostAnagrams = cntFound;
+                                mostAnagrams = word1;
+                            }
                             anagram += word2 + " ";
-
                         }
-
                     } else if (word1.length() == 2) {
                         // Reverse and check
                     }
                 }
                 if(!anagram.equals("")){
-                    System.out.println(word1 + ": " + anagram);
+                    cntWordsWithAnagrams++;
+                    if(cntWordsWithAnagrams < 10) {
+                        System.out.println(word1 + ": " + anagram);
+                    }
+
                 }
             }
         }
-        System.out.println("The word with the most anagrams: ");
-        System.out.println("The longest word with anagram(s): ");
-        System.out.println("Total number of words with anagrams: ");
-        System.out.println("Total number of anagrams found: ");
+        System.out.println();
+        System.out.println("The word with the most anagrams: " + mostAnagrams + " with " + cntMostAnagrams + " anagrams.");
+        System.out.println("The longest word with anagram(s): " + longestWord + " with " + cntLongestFound + " letters in the word.");
+        System.out.println("Total number of words with anagrams: " + cntWordsWithAnagrams);
+        System.out.println("Total number of anagrams found: " + cntAnagrams);
 
     }
     public static boolean anagram(String word1, String word2){
@@ -335,7 +363,6 @@ public class ass1 {
         }
         for(int i : counter){
             if(i != 0) return false;
-
         }
         return true;
     }
