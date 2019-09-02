@@ -24,7 +24,7 @@ public class ass1 {
         //System.out.println("Number of words in the dictionary: " + nWords);
         //step1();
         System.out.println( "===== STEP 2 =====");
-        //step2();
+        step2();
         System.out.println();
         System.out.println( "===== STEP 3 =====");
         System.out.println();
@@ -91,32 +91,36 @@ public class ass1 {
         String reversedWord;
         int counter = 0;
         int length = 0;
-        int i = 0;
         int result = 0;
+        int validRes = 0;
+        int listLength = nWords;
         String longestWord = null;
         System.out.println("First 10 emordnilap's (binary search):");
         // Iterating words in the dictionary list until it finds the ten first emordnilaps'
-        while (counter < 10) {
-            // Reverse the word we will be searching for
-            reversedWord = reverse(dictList[i]);
-            // Checking if word has more than 1 letter
-            if (dictList[i].length() > 1) {
+        for(int i = 0; i < listLength; i++){
+            String word = dictList[i];
+            if(word.length() > 1){
+                reversedWord = reverse(word);
                 result = binarySearch(reversedWord);
-                if (result >= 0) {
+                if(result>=0){
+                    validRes = result;
                     // Finding the longest word
-                    if (dictList[result].length() > length) {
-                        length = dictList[result].length();
-                        longestWord = dictList[result];
-
+                    if (reversedWord.length() > length) {
+                        length = reversedWord.length();
+                        longestWord = reversedWord;
+                    }
+                    if(counter < 10){
+                        System.out.println(dictList[i] + " : " + dictList[result]);
                     }
                     counter++;
-                    System.out.println(dictList[i] + " : " + dictList[result]);
                 }
             }
-            i++;
         }
+
+
+
         // Checking dictlist from same place it stopped searching for emornilaps
-        for(int j = result; j < dictList.length; j++){
+        /*for(int j = validRes; j < dictList.length; j++){
             // Finding the longest word
             if(dictList[j] != null){
                 if (dictList[j].length() > length) {
@@ -124,7 +128,7 @@ public class ass1 {
                     longestWord = dictList[j];
                 }
             }
-        }
+        }*/
         System.out.println("Longest emordnilap is " + longestWord + " which is " + longestWord.length() + " characters long.");
     }
 
@@ -132,8 +136,9 @@ public class ass1 {
     public static int binarySearch(String word) {
         int listLength = nWords;
         int low = 0;
-        int high = listLength;
+        int high = listLength-1;
         int mid;
+
         // Going through list
         while (low <= high) {
             mid = (low + high) / 2;
@@ -220,6 +225,7 @@ public class ass1 {
 
             int sampleLength = uniqueWords;
             int result;
+            // Searching with binary search in dictionary list
             for(int i = 0; i < sampleLength; i++){
                 result = binarySearch(sampleList[i]);
                 if(result >= 0){
@@ -326,18 +332,25 @@ public class ass1 {
                             }
                             anagram += word2 + " ";
                         }
-                    } else if (word1.length() == 2) {
-                        // Reverse and check
                     }
                 }
-                if(!anagram.equals("")){
-                    cntWordsWithAnagrams++;
-                    if(cntWordsWithAnagrams < 10) {
-                        System.out.println(word1 + ": " + anagram);
-                    }
 
+                // If word is two letters long we reverse it and binary search for it in dictionary
+            }else if(word1.length() == 2){
+                String reversedWord = reverse(word1);
+                int result = binarySearch(reversedWord);
+                if(result >= 0){
+                    cntAnagrams++;
+                    anagram += reversedWord + " ";
                 }
             }
+            if(!anagram.equals("")) {
+                if(cntWordsWithAnagrams<10) {
+                    System.out.println(word1 + ": " + anagram);
+                }
+                cntWordsWithAnagrams++;
+            }
+
         }
         System.out.println();
         System.out.println("The word with the most anagrams: " + mostAnagrams + " with " + cntMostAnagrams + " anagrams.");
