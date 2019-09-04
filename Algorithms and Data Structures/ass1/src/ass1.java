@@ -6,7 +6,6 @@ Student login: ma919
 
 import java.io.*;
 import java.util.Scanner;
-import java.util.function.DoubleToIntFunction;
 
 public class ass1 {
 
@@ -28,11 +27,11 @@ public class ass1 {
         System.out.println();
         System.out.println( "===== STEP 3 =====");
         System.out.println();
-        //step3();
+        step3();
         System.out.println();
         System.out.println( "===== STEP 4 =====");
         System.out.println();
-        //step4();
+        step4();
         long endTime = System.currentTimeMillis();
         System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
@@ -58,18 +57,15 @@ public class ass1 {
     public static void step1() {
         int listLength = nWords;
         String reversedWord;
-        int counter = 0;
         int i = 0;
+        int counter = 0;
         System.out.println("Five first emordnilap words (linear search):");
         // Iterating every word in the dictionary list until it finds the five first emordnilaps'
-        while (counter < 5) {
+        while (i < 20000) {
             reversedWord = reverse(dictList[i]);
-            // Iterating through the dictionary list again to find a match with the reversed word
             for (int j = 0; j < listLength; j++){
                 // Checking that the word is more than one letter and if the reversed word exists in the list
                 if (dictList[j].length() > 1 && dictList[j].equals(reversedWord)) {
-                    // Print out the original word and the reversed word while incrementing
-                    // the emornilaps-found-counter by one
                     System.out.println(dictList[i] + " : " + reversedWord);
                     counter++;
                 }
@@ -112,7 +108,6 @@ public class ass1 {
                     }else{
                         break;
                     }
-
                 }
             }
         }
@@ -161,7 +156,6 @@ public class ass1 {
 
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
-        int index = 0;
         boolean firstWord = true;
         Scanner input = null;
 
@@ -224,19 +218,8 @@ public class ass1 {
             }
             visit(root);
 
-            int sampleLength = uniqueWords;
-            int result;
-            // Searching with binary search in dictionary list
-            for(int i = 0; i < sampleLength; i++){
-                result = binarySearch(sampleList[i]);
-                if(result >= 0){
-                    validInDict[validDict] = sampleList[i];
-                    validDict++;
-                }
-            }
-
             System.out.println("Total number of valid words is : " + validCnt);
-            System.out.println("Total number of unique words is : " + sampleLength);
+            System.out.println("Total number of unique words is : " + uniqueWords);
             System.out.println("Total number of unique words found in dictionary is : " + validDict);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -280,24 +263,26 @@ public class ass1 {
         }
     }
 
-    // Going through BST tree and inserting into list
+    // Going through BST and inserting into list
     public static void visit(Node node){
-        int sampleLength = validCnt;
+        int result;
         if(node.left != null){
             visit(node.left);
         }
         if(uniqueWords++<validCnt){
-            sampleList[uniqueWords-1] = node.key;
+            // Searching with binary search in dictionary list
+            result = binarySearch(node.key);
+            if(result >= 0){
+                validInDict[validDict] = node.key;
+                validDict++;
+            }
         }
-
         if(node.right != null){
             visit(node.right);
         }
     }
 
     public static void step4(){
-
-
         int listLength = nWords;
         String word1;
         String word2 = "";
@@ -319,7 +304,7 @@ public class ass1 {
                 for(int j = 0; j < listLength; j++) {
                     word2 = dictList[j];
                     if (word2.length() > 2 && !word1.equals(word2)) {
-                        found = anagram(word1, word2);
+                        found = findAnagram(word1, word2);
                         if (found) {
                             cntFound++;
                             cntAnagrams++;
@@ -336,8 +321,8 @@ public class ass1 {
                     }
                 }
 
-                // If word is two letters long we reverse it and binary search for it in dictionary
             }else if(word1.length() == 2){
+                // If word is two letters long we reverse it and binary search for it in dictionary
                 String reversedWord = reverse(word1);
                 int result = binarySearch(reversedWord);
                 if(result >= 0){
@@ -360,7 +345,7 @@ public class ass1 {
         System.out.println("Total number of anagrams found: " + cntAnagrams);
 
     }
-    public static boolean anagram(String word1, String word2){
+    public static boolean findAnagram(String word1, String word2){
         int n1 = word1.length();
         int n2 = word2.length();
 
@@ -391,3 +376,25 @@ class Node {
         this.left = this.right = null;
     }
 }
+
+/*
+Run time of my final program: 2.8 seconds.
+
+Machine specs: Asus GL752VW - Intel Core i7 6700HQ - 8GB Memory
+
+Speedup achieved in step-2:
+    Estimate about 28 minutes on linear search to find all emordnilaps.
+    (Calculation: First 20 000 takes ca 90 sec. 370103/20 000=18,5. 90sec * 18,5 = 1665sec = ca 28 min.)
+    Binary search takes 937 milliseconds to find all emordnilaps.
+Data structures and algorithms:
+    Step 2:
+        Binary search to find the first 10 words. After the 10 words are found, binary search to find
+        longest word is only done for words longer than the longest word found so far.
+    Step 3:
+        Implemented BST Sort.
+        Inserts the unique words found in the dictionary into a list in the visit function.
+        Searching the dictionary is also done in the visit() function and is a binary search.
+    Step 4:
+        If the word we are searching for is 2 characters long, we reverse it and see if we can
+        find it in the dictionary.
+ */
