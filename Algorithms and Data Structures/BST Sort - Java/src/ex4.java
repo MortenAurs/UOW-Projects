@@ -11,8 +11,6 @@ import java.util.Scanner;
 public class ex4{
     private static String[] list = new String[300];
     private static int count = 0;
-    private static String output = "";
-    private static String separator = " ";
 
     public static void main(String[] args) {
         Node root = null;
@@ -26,7 +24,6 @@ public class ex4{
             while (file.hasNextLine()) {
                 line = Integer.parseInt(file.nextLine());
                 insert(line, root);
-
             }
             visit(root);
             file.close();
@@ -55,17 +52,12 @@ public class ex4{
 
     public static Node insertFirst(int value) {
         Node newNode = new Node(value);
-        newNode.left = null;
-        newNode.right = null;
+
         return newNode;
     }
     public static void insert(int item, Node node) {
-
         Node next;
-
         boolean left;
-
-
         if (item < node.key){
             next = node.left;
             left = true;
@@ -86,9 +78,7 @@ public class ex4{
         }
     }
 
-
     public static Node find(int item, Node node){
-
         if (item == 0){
             return null;
         }
