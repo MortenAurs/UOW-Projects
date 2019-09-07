@@ -17,6 +17,7 @@ public class ass1 {
     private static int validCnt = 0;
     private static int validDict = 0;
 
+    // Main function has calls to every step-function
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         readDictFile();
@@ -32,6 +33,7 @@ public class ass1 {
         System.out.println( "===== STEP 4 =====");
         System.out.println();
         step4();
+        System.out.println();
         long endTime = System.currentTimeMillis();
         System.out.println("Execution time is " + (endTime - startTime)  + " milliseconds");
     }
@@ -61,7 +63,7 @@ public class ass1 {
         int counter = 0;
         System.out.println("Five first emordnilap words (linear search):");
         // Iterating every word in the dictionary list until it finds the five first emordnilaps'
-        while (i < 20000) {
+        while (counter < 5) {
             reversedWord = reverse(dictList[i]);
             for (int j = 0; j < listLength; j++){
                 // Checking that the word is more than one letter and if the reversed word exists in the list
@@ -83,15 +85,15 @@ public class ass1 {
         return reversedWord;
     }
 
+    // Step 2 - Finding 10 first emordnilap's and the longest emordnilap
     public static void step2() {
         String reversedWord;
         int counter = 0;
         int length = 0;
         int result = 0;
         int listLength = nWords;
-        String longestWord = null;
+        String longestWord = "";
         System.out.println("First 10 emordnilap's (binary search):");
-        // Iterating words in the dictionary list until it finds the ten first emordnilaps'
         for(int i = 0; i < listLength; i++){
             String word = dictList[i];
             if(word.length() > 1){
@@ -114,10 +116,10 @@ public class ass1 {
         // Checking dictlist from same place it stopped searching for emornilaps to find longest word
         for(int j = result; j < listLength; j++){
             String word = dictList[j];
+            // Only doing binary search if the word is longer than the longest word
             if(word.length() > length){
                 reversedWord = reverse(word);
                 result = binarySearch(reversedWord);
-                // Finding the longest word
                 if (result >= 0) {
                     length = reversedWord.length();
                     longestWord = reversedWord;
@@ -135,7 +137,6 @@ public class ass1 {
         int high = listLength-1;
         int mid;
 
-        // Going through list
         while (low <= high) {
             mid = (low + high) / 2;
             if (dictList[mid].compareTo(word) < 0) {
@@ -149,11 +150,10 @@ public class ass1 {
         return -1;
     }
 
-    // Function for step 3 of assignment
+    // Step 3 - Spell check
     public static void step3() {
         String sampleFile = "sample.txt";
         Node root = null;
-
         String[] notAllowed = new String[] {"." , "," , ":" , "'" , "!" , "?", "\"" , ";" , "-"};
 
         boolean firstWord = true;
@@ -163,7 +163,7 @@ public class ass1 {
             input = new Scanner(new File(sampleFile));
             String word = "";
             String line = input.nextLine().toLowerCase();
-            // Going through line char by char to find first word
+            // Going through line char by char to find first word in sample.txt
             for(int i = 0; i < line.length(); i++) {
                 // Seperating words that are separated by space
                 if (line.charAt(i) == ' ') {
@@ -189,9 +189,8 @@ public class ass1 {
             while (input.hasNext()) {
                 line = input.nextLine().toLowerCase();
                 word = "";
-                // Going through line char by char
+                // Going through line char by char to find rest of the words
                 for(int i = 0; i < line.length(); i++){
-                    // Seperating words that are separated by space
                     if(line.charAt(i) == ' '){
                         // Only adding to list words that have content(no empty words)
                         if(word != "") {
@@ -202,6 +201,7 @@ public class ass1 {
                     }else {
                         boolean found = false;
                         for(int j = 0; j < notAllowed.length; j++){
+                            // Checking the notAllowed list for punctuation marks
                             if(notAllowed[j].equals(String.valueOf(line.charAt(i)))){
                                 found = true;
                             }
@@ -217,7 +217,6 @@ public class ass1 {
                 }
             }
             visit(root);
-
             System.out.println("Total number of valid words is : " + validCnt);
             System.out.println("Total number of unique words is : " + uniqueWords);
             System.out.println("Total number of unique words found in dictionary is : " + validDict);
@@ -226,18 +225,14 @@ public class ass1 {
         }
     }
 
-    // Inserting first word into
+    // Inserting first word into the tree
     public static Node insertFirst(String value) {
         Node newNode = new Node(value);
-        sampleList[uniqueWords] = newNode.key;
-        newNode.left = null;
-        newNode.right = null;
         return newNode;
     }
 
-    // Inserting into BST tree
+    // Inserting the rest of the words into the tree
     public static void insert(String item, Node node) {
-
         Node next;
         boolean left;
         if(item.equals(node.key)){
@@ -263,7 +258,7 @@ public class ass1 {
         }
     }
 
-    // Going through BST and inserting into list
+    // Going through BST and inserting into list if it exists in Dictionary
     public static void visit(Node node){
         int result;
         if(node.left != null){
@@ -282,6 +277,7 @@ public class ass1 {
         }
     }
 
+    // Step 4 - Anagrams
     public static void step4(){
         int listLength = nWords;
         String word1;
@@ -292,7 +288,6 @@ public class ass1 {
         int cntMostAnagrams = 0;
         int cntLongestFound = 0;
         int cntWordsWithAnagrams = 0;
-
 
         boolean found;
         for(int i = 0; i < validDict; i++){
@@ -345,6 +340,8 @@ public class ass1 {
         System.out.println("Total number of anagrams found: " + cntAnagrams);
 
     }
+
+    // Function for checking if two words are anagrams
     public static boolean findAnagram(String word1, String word2){
         int n1 = word1.length();
         int n2 = word2.length();
@@ -384,7 +381,7 @@ Machine specs: Asus GL752VW - Intel Core i7 6700HQ - 8GB Memory
 
 Speedup achieved in step-2:
     Estimate about 28 minutes on linear search to find all emordnilaps.
-    (Calculation: First 20 000 takes ca 90 sec. 370103/20 000=18,5. 90sec * 18,5 = 1665sec = ca 28 min.)
+    (Calculation: First 20 000 words takes ca 90 sec. 370103/20 000=18,5. 90sec * 18,5 = 1665sec = ca 28 min.)
     Binary search takes 937 milliseconds to find all emordnilaps.
 Data structures and algorithms:
     Step 2:
