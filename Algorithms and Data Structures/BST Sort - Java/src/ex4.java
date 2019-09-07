@@ -9,9 +9,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ex4{
-    private static String[] list = new String[300];
     private static int count = 0;
 
+    // Running main functino
     public static void main(String[] args) {
         Node root = null;
         String dictFile = "ex4.txt";
@@ -33,6 +33,7 @@ public class ex4{
         }
     }
 
+    // Function to list out the output
     public static void visit(Node node){
         if(node.left != null){
             visit(node.left);
@@ -50,15 +51,18 @@ public class ex4{
         return;
     }
 
+    // Function to insert the first number of the file
     public static Node insertFirst(int value) {
         Node newNode = new Node(value);
 
         return newNode;
     }
+
+    // Function to insert the rest of the numbers in the file
     public static void insert(int item, Node node) {
         Node next;
         boolean left;
-        if (item < node.key){
+        if (item <= node.key){
             next = node.left;
             left = true;
         }else{
@@ -76,20 +80,6 @@ public class ex4{
                 node.right = next;
             }
         }
-    }
-
-    public static Node find(int item, Node node){
-        if (item == 0){
-            return null;
-        }
-        if(item == node.key){
-            return node;
-        }else if(item < node.key){
-            find(item, node.left);
-        }else{
-            find(item, node.right);
-        }
-        return null;
     }
 }
 
