@@ -1,5 +1,5 @@
 /*
-Assignment 1 - Step 1
+Assignment 1
 Morten Aursland
 Student login: ma919
  */
