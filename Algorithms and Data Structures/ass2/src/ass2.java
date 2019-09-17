@@ -33,6 +33,8 @@ public class ass2 {
         System.out.println();
         while(!eventQueue.isEmpty()){
             eventQueue.removeRecord();
+            //eventQueue.printList();
+
         }
 
         Scanner file;
@@ -105,15 +107,7 @@ class CustomerQueue {
     }
 
     public Customer removeItem(){
-        if(numCustomers==0){
-            System.out.println("Customer queue is empty");
-            System.exit(1);
-        }
-        Customer removed = customerArray[0];
-
-        for(int i = 0; i < inIndex; i++){
-            customerArray[i] = customerArray[i+1];
-        }
+        Customer removed = customerArray[outIndex];
         System.out.println("Removed from customerArray: " + removed.getArrivalTime());
         outIndex++;
         if(outIndex== cMaxCustomerQueue) outIndex=0;
@@ -135,8 +129,8 @@ eventType:
     Give it a number from 0 to n-1 servers to indicate which server has triggered the event
 
  */
-    private int eventType;
-    private double eventTime, tallyTime;
+    public int eventType;
+    public double eventTime, tallyTime;
     private boolean cash;
 
     public Event(int eventType, double eventTime, double tallyTime, boolean cash){
@@ -154,32 +148,64 @@ eventType:
         return eventType;
     }
 }
-class EventQueue{
+class EventQueue {
     private Event[] eventArray = new Event[500];
     private int numEvents = 0;
+    private int maxLength = 500;
 
     public void addEvent(Event event) {
-        int i = numEvents;
-
-        while(i>0 && event.getEventTime() < eventArray[i-1].getEventTime()){
-            eventArray[i] = eventArray[i-1];
-            i--;
+        if (numEvents > maxLength - 1) {
+            System.out.println("Heap is full. Exiting..");
+            System.exit(0);
         }
-        eventArray[i] = event;
-        System.out.println("Added to event array:       " + event.getEventTime());
-        System.out.println();
-        numEvents++;
+        System.out.println("Added to eventArray: " + event.eventTime);
+        eventArray[numEvents++] = event;
+        siftUp(numEvents - 1);
+
     }
 
     public void removeRecord(){
-
         Event removed = eventArray[0];
+        swap(numEvents-1, 0);
         numEvents--;
-        for(int i = 0; i < numEvents; i++){
-            eventArray[i] = eventArray[i+1];
+        siftDown(0);
+        System.out.println("Removed from eventArray: " + removed.eventTime);
+    }
+
+    public void siftDown(int i){
+        int parent = i;
+        int leftChild = i*2+1;
+        if(leftChild < numEvents){
+            int smallestChild = leftChild;
+            int rightChild = leftChild+1;
+            if(rightChild < numEvents) {
+                if (eventArray[leftChild].eventTime > eventArray[rightChild].eventTime) smallestChild = rightChild;
+            }
+            if (eventArray[parent].eventTime > eventArray[smallestChild].eventTime) {
+                swap(parent, smallestChild);
+                siftDown(smallestChild);
+            }
+
         }
-        
-        System.out.println("Removed from eventArray: " + removed.getEventTime());
+    }
+
+    public void siftUp(int i){
+        int child = i;
+        if (child==0){
+            return;
+        }else{
+            int parent = (child-1) / 2;
+            if(eventArray[parent].eventTime > eventArray[child].eventTime) {
+                swap(child, parent);
+                siftUp(parent);
+            }
+        }
+    }
+
+    public void swap(int i, int parent){
+        Event temp = eventArray[parent];
+        eventArray[parent] = eventArray[i];
+        eventArray[i] = temp;
     }
 
     public boolean isEmpty(){return numEvents==0;}
