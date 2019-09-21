@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class ass2 {
@@ -8,65 +7,129 @@ public class ass2 {
     public static void main(String[] args) {
         String dictFile = "ass2.txt";
         CustomerQueue cQueue = new CustomerQueue();
-        Customer customer;
-
-        Random r = new Random();
-        System.out.println("===== Add to customer list =====");
-        System.out.println();
-        for(int i = 0; i < 10; i++){
-            double randNr = Math.round(100 * r.nextDouble() * 100d) / 100d;
-            customer = new Customer(randNr, 0, false);
-            cQueue.addCustomer(customer);
-        }
-        System.out.println();
-        System.out.println("===== Remove from customer list and add to event list =====");
-        System.out.println();
         EventQueue eventQueue = new EventQueue();
-        while(!cQueue.isEmpty()){
-            Customer removed = cQueue.removeItem();
-            Event event = new Event(0, removed.getArrivalTime(), 0, false);
-            eventQueue.addEvent(event);
-        }
-
-        System.out.println();
-        System.out.println("===== Remove from eventlist =====");
-        System.out.println();
-        while(!eventQueue.isEmpty()){
-            eventQueue.removeRecord();
-            //eventQueue.printList();
-
-        }
-
+        ServerQueue serverQueue = new ServerQueue();
         Scanner file;
+        Customer customer;
+        Event event;
+        boolean cash = false;
+        double serverEfficiency;
         int counter = 0;
+        double payment_time;
+        Server server;
+
         String temp;
         try {
             file = new Scanner(new File(dictFile));
-            int cntCheckouts = Integer.parseInt(file.nextLine());
-            double serverEfficiency;
-            while (file.hasNextLine()) {
-                temp = file.nextLine();
-                /*if(counter++ < cntCheckouts){
-                    serverEfficiency = Double.parseDouble(file.nextLine());
-                    System.out.println(serverEfficiency);
+            for(int i = 0; i < 6; i++){
+                server = new Server(Double.parseDouble(file.nextLine()), i);
+                serverQueue.addServerToServerArray(server);
+            }
+
+            double customerArrival = Double.parseDouble(file.next());
+            double tallyTime = Double.parseDouble(file.next());
+            String paymentMethod = file.next();
+            System.out.println(customerArrival);
+            System.out.println(tallyTime);
+            System.out.println(paymentMethod);
+            if(paymentMethod.equals("cash")){
+                cash = true;
+            }
+            event = new Event(-1, customerArrival, tallyTime, cash);
+            eventQueue.addEvent(event);
+
+            while(!eventQueue.isEmpty()){
+
+                Event nextEvent = eventQueue.removeRecord();
+                double currentTime = nextEvent.eventTime;
+                System.out.println("Event");
+                System.out.println(event.toString());
+                System.out.println("NextEvent");
+                System.out.println(nextEvent.toString());
+                if(nextEvent.eventType == event.eventType){
+                    if(serverQueue.availableServer()){
+                        System.out.println("======= Available server =======");
+                        Server fastestServer = serverQueue.findFastestServer();
+                        fastestServer.busy = true;
+                        event.eventType = fastestServer.serverId;
+                        //System.out.println("fastestserver: " + fastestServer.toString());
+                        if(nextEvent.cash){
+                            payment_time = 0.3;
+                        }else{
+                            payment_time = 0.7;
+                        }
+                        System.out.println();
+                        System.out.println("Event: " + event.eventType);
+                        System.out.println();
+                        eventQueue.addEvent(event);
+                        double finishTime = (nextEvent.tallyTime * fastestServer.efficiency) + payment_time;
+                    }else{
+                        System.out.println("inne");
+                        customer = new Customer(customerArrival, tallyTime, cash);
+                        cQueue.addCustomer(customer);
+                    }
+                    if(file.hasNext()){
+                        System.out.println("Inne i filhasnext");
+                        customerArrival = Double.parseDouble(file.next());
+                        tallyTime = Double.parseDouble(file.next());
+                        paymentMethod = file.next();
+//                        System.out.println(customerArrival);
+//                        System.out.println(tallyTime);
+//                        System.out.println(paymentMethod);
+                        if(paymentMethod.equals("cash")){
+                            cash = true;
+                        }
+                        event = new Event(-1, customerArrival, tallyTime, cash);
+                        eventQueue.addEvent(event);
+                    }
+                    System.out.println(eventQueue.isEmpty());
                 }else{
-                    System.out.println(file.nextLine());
-                }*/
+                    System.out.println("============================ INNE =====================================");
+                    int serverNr = nextEvent.eventType;
+                    server = serverQueue.getServer(serverNr);
+                    server.busy = false;
+                    if(!cQueue.isEmpty()){
+                        Customer nextCustomer = cQueue.removeCustomer();
+                        event = new Event(-1, nextCustomer.arrivalTime, nextCustomer.tallyTime, nextCustomer.cash);
+                        Server fastestServer = serverQueue.findFastestServer();
+                        fastestServer.busy = true;
+                        eventQueue.addEvent(event);
+                        if(nextEvent.cash){
+                            payment_time = 0.3;
+                        }else{
+                            payment_time = 0.7;
+                        }
+                        double finishTime = (nextEvent.tallyTime * fastestServer.efficiency) + payment_time;
+
+                    }
+
+
+                }
 
             }
+            cQueue.showCustomerQueue();
+
+
             file.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             System.exit(0);
         }
+
+
+
+
+
+
+
     }
 }
 
 class Customer {
 
-    private double arrivalTime;
-    private double tallyTime;
-    private boolean cash;
+    public double arrivalTime;
+    public double tallyTime;
+    public boolean cash;
 
     public Customer(double arrivalTime, double tallyTime, boolean cash){
         this.arrivalTime = arrivalTime;
@@ -106,13 +169,22 @@ class CustomerQueue {
         numCustomers++;
     }
 
-    public Customer removeItem(){
+    public Customer removeCustomer(){
         Customer removed = customerArray[outIndex];
         System.out.println("Removed from customerArray: " + removed.getArrivalTime());
         outIndex++;
         if(outIndex== cMaxCustomerQueue) outIndex=0;
         numCustomers--;
         return removed;
+    }
+
+    public void showCustomerQueue(){
+        for(int i = outIndex; i<inIndex; i++){
+            System.out.println("I: " + i);
+            System.out.println(customerArray[i].arrivalTime);
+            System.out.println(customerArray[i].tallyTime);
+            System.out.println(customerArray[i].cash);
+        }
     }
 
     public Customer[] getCustomerArray(){
@@ -131,7 +203,7 @@ eventType:
  */
     public int eventType;
     public double eventTime, tallyTime;
-    private boolean cash;
+    public boolean cash;
 
     public Event(int eventType, double eventTime, double tallyTime, boolean cash){
         this.eventType = eventType;
@@ -147,11 +219,15 @@ eventType:
     public int getEventType() {
         return eventType;
     }
+
+    public String toString(){
+        return "Eventtype: " + eventType + ", event time: " + eventTime + ", Tally time: " + tallyTime + ", cash: " + cash;
+    }
 }
 class EventQueue {
-    private Event[] eventArray = new Event[500];
-    private int numEvents = 0;
-    private int maxLength = 500;
+    public Event[] eventArray = new Event[500];
+    public int numEvents = 0;
+    public int maxLength = 500;
 
     public void addEvent(Event event) {
         if (numEvents > maxLength - 1) {
@@ -164,12 +240,13 @@ class EventQueue {
 
     }
 
-    public void removeRecord(){
+    public Event removeRecord(){
         Event removed = eventArray[0];
         swap(numEvents-1, 0);
         numEvents--;
         siftDown(0);
-        System.out.println("Removed from eventArray: " + removed.eventTime);
+        //System.out.println("Removed from eventArray: " + removed.eventTime);
+        return removed;
     }
 
     public void siftDown(int i){
@@ -187,6 +264,7 @@ class EventQueue {
             }
 
         }
+
     }
 
     public void siftUp(int i){
@@ -213,5 +291,71 @@ class EventQueue {
 }
 
 class Server {
+
+    public boolean busy = false;
+    public double efficiency;
+    public int serverId;
+    // double to count idle time
+
+    public Server(double efficiency, int serverId){
+        this.efficiency = efficiency;
+        this.serverId = serverId;
+
+    }
+    public Server () {
+
+    }
+    public String toString(){
+        return "Busy: " + busy + "\nEfficiency: " + efficiency + "\nserverID: " + serverId;
+    }
+
+
+}
+
+class ServerQueue {
+    public Server[] serverArray = new Server[20];
+    public int cntCustomer = 0;
+
+
+    public void addServerToServerArray(Server server){
+        serverArray[cntCustomer] = server;
+        cntCustomer++;
+    }
+
+    public void removeCustomerFromServer(){
+        Server removed = serverArray[0];
+        for(int i = 0; i < cntCustomer; i++){
+            serverArray[i] = serverArray[i+1];
+        }
+    }
+
+    public Server findFastestServer(){
+        double fastest = 99;
+        Server server = new Server(fastest, -1);
+        for(int i = 0; i < cntCustomer; i++){
+            if(fastest > serverArray[i].efficiency && !serverArray[i].busy){
+                fastest = serverArray[i].efficiency;
+                server = serverArray[i];
+            }
+        }
+        System.out.println("SERVER: " + server.toString());
+        return server;
+    }
+
+    public boolean availableServer(){
+        for(int i = 0; i < cntCustomer; i++){
+            if(serverArray[i].busy == false){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Server getServer(int index) {
+
+
+        return serverArray[index];
+    }
+
 
 }
