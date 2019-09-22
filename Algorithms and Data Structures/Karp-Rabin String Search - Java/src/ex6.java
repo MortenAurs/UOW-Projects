@@ -1,3 +1,10 @@
+/*
+Exercise 6 - Karp-Rabin String Search
+Morten Aursland
+Student login: ma919
+ */
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
