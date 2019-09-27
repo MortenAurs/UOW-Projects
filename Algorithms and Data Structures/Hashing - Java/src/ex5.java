@@ -21,8 +21,8 @@ public class ex5 {
     public static void main(String[] args) {
         System.out.println("Please type filename: ");
 
-        //Scanner input = new Scanner(System.in);
-        String fileName = "ex5.txt"; //input.nextLine();
+        Scanner input = new Scanner(System.in);
+        String fileName = input.nextLine();
         BufferedReader file;
         try {
             file = new BufferedReader(new FileReader(fileName));
@@ -33,11 +33,9 @@ public class ex5 {
                 insert(hashKey, Integer.parseInt(line));
                 line = file.readLine();
             }
-            //printOut();
-            // print nubmer of empty entries and collisions
             System.out.println("Number of empty entries: " + emptyEntries);
             System.out.println("Number of collisions: " + collisions);
-            System.out.println("The longes chain is: " + longestChain + " long");
+            System.out.println("The longes chain is: " + longestChain);
         } catch (FileNotFoundException e){
             System.out.println("File not found");
         } catch (IOException e) {
