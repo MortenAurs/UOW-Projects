@@ -4,55 +4,37 @@ import java.util.Scanner;
 
 public class ass3 {
 
-    // Main function
-    public static void main(String[] args) {
+    public static void main(String args[]) {
         String[] verticesList = new String[20];
-        Edgelist edgelist = new Edgelist();
+        String vertices = "";
+        String startEdge = "";
+        String endEdge = "";
+        int weight;
+        int x, y;
+
         Scanner file;
         String fileName = "ass3.txt";
         try {
             file = new Scanner(new File(fileName));
             int verticesCnt = Integer.parseInt(file.next());
             int edgesCnt = Integer.parseInt(file.next());
-            /*System.out.println(verticesCnt);
-            System.out.println(edgesCnt);*/
-            String vertices = "";
-            String startEdge = "";
-            String endEdge = "";
-            int weight;
-            String startVertices = "";
-            String endVertices = "";
-            int x, y;
-            for(int i = 0; i < verticesCnt; i++){
+            Graph gph = new Graph(verticesCnt);
+
+            for (int i = 0; i < verticesCnt; i++) {
                 vertices = file.next();
                 x = Integer.parseInt(file.next());
                 y = Integer.parseInt(file.next());
                 verticesList[i] = vertices;
-                /*System.out.println("Vertices: " + vertices);
-                System.out.println("X: " + x);
-                System.out.println("Y: " + y);*/
             }
-            for(int i = 0; i < edgesCnt; i++){
+            
+            for (int i = 0; i < edgesCnt; i++) {
                 startEdge = file.next();
-                //System.out.println(startEdge);
                 endEdge = file.next();
-                //System.out.println(endEdge);
                 weight = Integer.parseInt(file.next());
-                //System.out.println(weight);
-                Edge edge = new Edge(startEdge, endEdge, weight);
-                edgelist.addEdge(edge);
+                gph.addEdge(startEdge, endEdge, weight);
             }
-            for(int i = 0; i < 5; i++){
-                System.out.print(verticesList[i] + ":  ");
-                for(int j = 0; j < 99; j++){
-                    if(edgelist.edgeList[j].startEdge.equals(verticesList[i])) {
-                        System.out.print(edgelist.edgeList[j].endEdge + "(" + edgelist.edgeList[j].weight + ")  ");
-                    }
-                }
-                System.out.println();
-            }
-            startVertices = file.next();
-            endVertices = file.next();
+            gph.printGraph(gph);
+
         }catch (FileNotFoundException e) {
             System.out.println("File not found");
             System.exit(0);
@@ -60,25 +42,63 @@ public class ass3 {
     }
 }
 
-
-class Edge {
-    public String startEdge;
-    public String endEdge;
+class Node {
+    String source;
+    String destination;
     int weight;
+    Node next;
 
-    public Edge(String startEdge, String endEdge, int weight){
-        this.startEdge = startEdge;
-        this.endEdge = endEdge;
+    public Node(String source, String destination, int weight) {
+        this.source = source;
+        this.destination = destination;
         this.weight = weight;
+        next = null;
     }
 }
-class Edgelist{
-    public Edge[] edgeList = new Edge[99];
-    public int cntEdge = 0;
 
-    public void addEdge(Edge edge){
-        edgeList[cntEdge] = edge;
-        cntEdge++;
+class adjList {
+    Node head;
+}
 
+class Graph {
+    int V;
+    adjList String[];
+
+    public Graph(int V) {
+        this.V = V;
+        String = new adjList[V];
+        for (int i = 0; i < V; i++) {
+            String[i] = new adjList();
+            String[i].head = null;
+        }
+    }
+
+    // Adding edges to the array
+    public void addEdge(String source, String destination, int weight) {
+
+        Node adn = new Node(source, destination, weight);
+
+        // add this node to the source adj List
+        int intSrc = source.charAt(0) -'a';
+        int intDst = source.charAt(0) -'a';
+        adn.next = String[intSrc].head;
+        String[intDst].head = adn;
+    }
+
+    // Going through the array and printing out 5 first vertices and the connections with weight
+    public void printGraph(Graph gph) {
+        int listLength = 5;
+        Node ad;
+        for (int i = 0; i < listLength; i++) {
+            ad = gph.String[i].head;
+            if(ad!=null){
+                System.out.print(ad.source + ":  ");
+                while (ad != null) {
+                    System.out.print("  " + ad.destination + "(" + ad.weight + ")");
+                    ad = ad.next;
+                }
+            }
+            System.out.println();
+        }
     }
 }
