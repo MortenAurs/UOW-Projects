@@ -1,0 +1,1 @@
+Amount of columns are: 2
