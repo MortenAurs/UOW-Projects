@@ -3,99 +3,120 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ex7 {
-    private static Stack stack = new Stack();
+    private static int starterVertices = 0;
 
     public static void main(String args[]) {
         Scanner file;
-
         String fileName = "ex7.txt";
-
         try {
             file = new Scanner(new File(fileName));
-            int starter = Integer.parseInt(file.next());
+            int vertices = Integer.parseInt(file.next());
+            Graph graph = new Graph(vertices);
             while (file.hasNext()){
                 int item = Integer.parseInt(file.next());
-                stack.push(item);
+                int neighbour = Integer.parseInt(file.next());
+                graph.addEdge(item, neighbour);
             }
-            System.out.println("==============================");
-            System.out.println("TOP: " + stack.top());
-            System.out.println(stack.pop());
-            System.out.println(stack.pop());
-            System.out.println(stack.pop());
-            System.out.println(stack.pop());
+            graph.bfs(starterVertices);
+            //System.out.println(graph.toString());
         }catch (FileNotFoundException e) {
             System.out.println("File not found");
             System.exit(0);
         }
     }
+}
 
-    public int bfs (starter, adj){
-        int[] vList = new int[20];
+class Graph {
+    private boolean adjMatrix[][];
+    private int numVertices;
 
+    public Graph(int numVertices) {
+        this.numVertices = numVertices;
+        adjMatrix = new boolean[numVertices][numVertices];
+    }
 
-        stack.push(starter);
-        int i = 0;
-        while (!stack.isEmpty()){
-            int current = stack.pop();
-            vList[i] = current;
+    public void addEdge(int i, int j) {
+        adjMatrix[i][j] = true;
+        adjMatrix[j][i] = true;
+    }
 
+    public void removeEdge(int i, int j) {
+        adjMatrix[i][j] = false;
+        adjMatrix[j][i] = false;
+    }
+
+    public boolean isEdge(int i, int j) {
+        return adjMatrix[i][j];
+    }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < numVertices; i++) {
+            s.append(i + ": ");
+            for (boolean j : adjMatrix[i]) {
+                s.append((j ? 1 : 0) + " ");
+            }
+            s.append("\n");
         }
-        current = q.dequeue()
-        add current to v
-        for each n in adj(current)
-        if n is not in v then
-        q.enqueue(n)
-        fi
-                rof
-        elihw
-        return v
+        return s.toString();
+    }
 
+    public void bfs(int starter) {
+
+        Queue queue = new Queue(numVertices);
+        boolean[] vList = new boolean[numVertices];
+        queue.add(starter);
+
+        while (!queue.isEmpty()) {
+            int current = queue.remove();
+            vList[current] = true;
+            for (int i = 0; i < adjMatrix[current].length; i++) {
+                if(adjMatrix[current][i] == true){
+                    if(!vList[i]){
+                        vList[i] = true;
+                        System.out.println(current + " " + i);
+                        queue.add(i);
+                    }
+
+                }
+            }
+        }
     }
 }
 
+class Queue {
+    private int[] queue;
+    private int length;
+    private int rear = 0;
 
-
-class Stack {
-    private int inIndex = 0;
-    private int outIndex = 0;
-    private int maxLength = 100;
-    private int cntItem = 0;
-    public int[] stack = new int[maxLength];
-
-    public void push(int item){
-        if(cntItem==maxLength){
-            System.out.println("Stack is full");
-            System.exit(0);
-        }
-        stack[inIndex] = item;
-        inIndex++;
-        if(inIndex == maxLength) inIndex = 0;
-
-        cntItem++;
+    // adding a queue with a determined length
+    public Queue (int length){
+        this.length = length;
+        queue = new int [length];
     }
 
-    public int pop(){
-        int removed = stack[outIndex];
-        outIndex++;
-        if(outIndex == maxLength) outIndex = 0;
-        cntItem--;
-        return removed;
-    }
-
-    public boolean isEmpty(){return cntItem == 0;}
-
-    public int top(){
-        if(isEmpty()){
-            System.out.println("Stack is empty");
-            System.exit(0);
-        }
-        System.out.println("outindex: " + outIndex);
-        return stack[outIndex];
-    }
-    public void printList(){
-        for (int i = 0; i < maxLength; i++){
-            System.out.println(stack[i]);
+    // adding item to the queue
+    public void add (int item){
+        if (rear > length) {
+            System.out.println("Queue is full");
+        }else {
+            queue[rear] = item;
+            rear++;
         }
     }
 
+    // removin item from queue
+    public int remove (){
+        int remove = queue[0];
+        if (rear != 0){
+            for(int i = 1; i <= rear; i++) {
+                queue[i-1] = queue[i];
+            }
+        }
+        rear--;
+        return remove;
+    }
+
+    // check if queue is empty
+    public boolean isEmpty(){return(rear == 0);}
 }
