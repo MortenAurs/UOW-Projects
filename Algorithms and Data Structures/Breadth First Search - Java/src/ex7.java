@@ -1,3 +1,8 @@
+/*
+Exercise 7 - Breadth First Search
+Morten Aursland
+Student login: ma919
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -18,7 +23,7 @@ public class ex7 {
                 graph.addEdge(item, neighbour);
             }
             graph.bfs(starterVertices);
-            //System.out.println(graph.toString());
+            System.out.println(graph.toString());
         }catch (FileNotFoundException e) {
             System.out.println("File not found");
             System.exit(0);
